@@ -1,5 +1,5 @@
 import { HostComponent } from 'react-native';
-import { RawButtonProps } from './GestureButtons';
-import RNGestureHandlerButtonNativeComponent from '../specs/RNGestureHandlerButtonNativeComponent';
+import { RawButtonProps } from 'react-native-gesture-handler/src/components/GestureButtons';
+import { RNGestureHandlerButton } from './RNGestureHandlerButton';
 
-export default RNGestureHandlerButtonNativeComponent as HostComponent<RawButtonProps>;
+export default RNGestureHandlerButton as HostComponent<RawButtonProps>;

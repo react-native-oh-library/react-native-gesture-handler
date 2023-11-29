@@ -1,8 +1,9 @@
+// RNGH: forking to use the forked createHandler
 import createHandler from './createHandler';
 import {
   BaseGestureHandlerProps,
   baseGestureHandlerProps,
-} from './gestureHandlerCommon';
+} from 'react-native-gesture-handler/src/handlers/gestureHandlerCommon';
 
 export const tapGestureHandlerProps = [
   'maxDurationMs',

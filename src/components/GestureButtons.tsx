@@ -10,16 +10,16 @@ import {
 
 import createNativeWrapper from '../handlers/createNativeWrapper';
 import GestureHandlerButton from './GestureHandlerButton';
-import { State } from '../State';
+import { State } from 'react-native-gesture-handler/src/State';
 
 import {
   GestureEvent,
   HandlerStateChangeEvent,
-} from '../handlers/gestureHandlerCommon';
+} from 'react-native-gesture-handler/src/handlers/gestureHandlerCommon';
 import {
   NativeViewGestureHandlerPayload,
   NativeViewGestureHandlerProps,
-} from '../handlers/NativeViewGestureHandler';
+} from 'react-native-gesture-handler/src/handlers/NativeViewGestureHandler';
 
 export interface RawButtonProps extends NativeViewGestureHandlerProps {
   /**
@@ -273,7 +273,8 @@ export class RectButton extends React.Component<RectButtonProps> {
       <BaseButton
         {...rest}
         style={resolvedStyle}
-        onActiveStateChange={this.onActiveStateChange}>
+        onActiveStateChange={this.onActiveStateChange}
+      >
         <Animated.View
           style={[
             btnStyles.underlay,
@@ -322,7 +323,8 @@ export class BorderlessButton extends React.Component<BorderlessButtonProps> {
       <AnimatedBaseButton
         {...rest}
         onActiveStateChange={this.onActiveStateChange}
-        style={[style, Platform.OS === 'ios' && { opacity: this.opacity }]}>
+        style={[style, Platform.OS === 'ios' && { opacity: this.opacity }]}
+      >
         {children}
       </AnimatedBaseButton>
     );

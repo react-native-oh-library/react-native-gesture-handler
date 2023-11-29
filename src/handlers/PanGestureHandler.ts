@@ -1,8 +1,10 @@
-import createHandler from './createHandler';
+// RNGH: patching to replace `createHandler`
+
+import createHandler from './createHandler'; // RNGH: using local create handler
 import {
   BaseGestureHandlerProps,
   baseGestureHandlerProps,
-} from './gestureHandlerCommon';
+} from 'react-native-gesture-handler/src/handlers/gestureHandlerCommon';
 
 export const panGestureHandlerProps = [
   'activeOffsetY',

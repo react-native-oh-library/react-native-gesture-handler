@@ -1,3 +1,8 @@
+/**
+ * Why is this file patched?
+ * - replacing import to RNGestureHandlerModule - original code uses (old) Native Modules but RNOH supports only Turbo Modules
+ */
+
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   GestureType,
@@ -5,10 +10,10 @@ import {
   BaseGesture,
   GestureRef,
   CALLBACK_TYPE,
-} from './gesture';
-import { Reanimated, SharedValue } from './reanimatedWrapper';
-import { registerHandler, unregisterHandler } from '../handlersRegistry';
-import RNGestureHandlerModule from '../../RNGestureHandlerModule';
+} from 'react-native-gesture-handler/src/handlers/gestures/gesture';
+import { Reanimated, SharedValue } from 'react-native-gesture-handler/src/handlers/gestures/reanimatedWrapper';
+import { registerHandler, unregisterHandler } from 'react-native-gesture-handler/src/handlers/handlersRegistry';
+import { RNGestureHandlerModule } from '../../RNGestureHandlerModule'; // RNGH: patch
 import {
   baseGestureHandlerWithMonitorProps,
   filterConfig,
@@ -17,37 +22,41 @@ import {
   GestureUpdateEvent,
   GestureStateChangeEvent,
   HandlerStateChangeEvent,
-  scheduleFlushOperations,
   UserSelect,
-} from '../gestureHandlerCommon';
+} from 'react-native-gesture-handler/src/handlers/gestureHandlerCommon';
+import {
+  scheduleFlushOperations,
+} from '../gestureHandlerCommon'; // RNGH: patch
 import {
   GestureStateManager,
   GestureStateManagerType,
-} from './gestureStateManager';
-import { flingGestureHandlerProps } from '../FlingGestureHandler';
-import { forceTouchGestureHandlerProps } from '../ForceTouchGestureHandler';
-import { longPressGestureHandlerProps } from '../LongPressGestureHandler';
+} from 'react-native-gesture-handler/src/handlers/gestures/gestureStateManager';
+import { flingGestureHandlerProps } from 'react-native-gesture-handler/src/handlers/FlingGestureHandler';
+import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/src/handlers/ForceTouchGestureHandler';
+import { longPressGestureHandlerProps } from 'react-native-gesture-handler/src/handlers/LongPressGestureHandler';
 import {
   panGestureHandlerProps,
   panGestureHandlerCustomNativeProps,
-} from '../PanGestureHandler';
-import { tapGestureHandlerProps } from '../TapGestureHandler';
-import { hoverGestureHandlerProps } from './hoverGesture';
-import { State } from '../../State';
-import { TouchEventType } from '../../TouchEventType';
-import { ComposedGesture } from './gestureComposition';
-import { ActionType } from '../../ActionType';
-import { isFabric, isJestEnv, tagMessage } from '../../utils';
-import { getReactNativeVersion } from '../../getReactNativeVersion';
-import { getShadowNodeFromRef } from '../../getShadowNodeFromRef';
+} from 'react-native-gesture-handler/src/handlers/PanGestureHandler';
+import { tapGestureHandlerProps } from 'react-native-gesture-handler/src/handlers/TapGestureHandler';
+import { State } from 'react-native-gesture-handler/src/State';
+import { TouchEventType } from 'react-native-gesture-handler/src/TouchEventType';
+import { ComposedGesture } from 'react-native-gesture-handler/src/handlers/gestures/gestureComposition';
+import { ActionType } from 'react-native-gesture-handler/src/ActionType';
+import {
+  isFabric,
+  isJestEnv,
+  REACT_NATIVE_VERSION,
+  tagMessage,
+} from 'react-native-gesture-handler/src/utils';
+import { getShadowNodeFromRef } from 'react-native-gesture-handler/src/getShadowNodeFromRef';
 import { Platform } from 'react-native';
-import type RNGestureHandlerModuleWeb from '../../RNGestureHandlerModule.web';
-import { onGestureHandlerEvent } from './eventReceiver';
-import { RNRenderer } from '../../RNRenderer';
-import { isNewWebImplementationEnabled } from '../../EnableNewWebImplementation';
-import { nativeViewGestureHandlerProps } from '../NativeViewGestureHandler';
-import GestureHandlerRootViewContext from '../../GestureHandlerRootViewContext';
-import { ghQueueMicrotask } from '../../ghQueueMicrotask';
+import type RNGestureHandlerModuleWeb from 'react-native-gesture-handler/src/RNGestureHandlerModule.web';
+import { onGestureHandlerEvent } from 'react-native-gesture-handler/src/handlers/gestures/eventReceiver';
+import { RNRenderer } from 'react-native-gesture-handler/src/RNRenderer';
+import { isNewWebImplementationEnabled } from 'react-native-gesture-handler/src/EnableNewWebImplementation';
+import { nativeViewGestureHandlerProps } from 'react-native-gesture-handler/src/handlers/NativeViewGestureHandler';
+import GestureHandlerRootViewContext from 'react-native-gesture-handler/src/GestureHandlerRootViewContext';
 
 declare const global: {
   isFormsStackingContext: (node: unknown) => boolean | null; // JSI function
@@ -61,7 +70,6 @@ const ALLOWED_PROPS = [
   ...longPressGestureHandlerProps,
   ...forceTouchGestureHandlerProps,
   ...flingGestureHandlerProps,
-  ...hoverGestureHandlerProps,
   ...nativeViewGestureHandlerProps,
 ];
 
@@ -156,7 +164,7 @@ function attachHandlers({
 
   // use queueMicrotask to extract handlerTags, because all refs should be initialized
   // when it's ran
-  ghQueueMicrotask(() => {
+  queueMicrotask(() => {
     if (!mountedRef.current) {
       return;
     }
@@ -176,7 +184,7 @@ function attachHandlers({
 
   // use queueMicrotask to extract handlerTags, because all refs should be initialized
   // when it's ran
-  ghQueueMicrotask(() => {
+  queueMicrotask(() => {
     if (!mountedRef.current) {
       return;
     }
@@ -193,17 +201,11 @@ function attachHandlers({
         );
       }
 
-      let blocksHandlers: number[] = [];
-      if (handler.config.blocksHandlers) {
-        blocksHandlers = extractValidHandlerTags(handler.config.blocksHandlers);
-      }
-
       RNGestureHandlerModule.updateGestureHandler(
         handler.handlerTag,
         filterConfig(handler.config, ALLOWED_PROPS, {
           simultaneousHandlers: simultaneousWith,
           waitFor: requireToFail,
-          blocksHandlers: blocksHandlers,
         })
       );
     }
@@ -270,7 +272,7 @@ function updateHandlers(
   // use queueMicrotask to extract handlerTags, because when it's ran, all refs should be updated
   // and handlerTags in BaseGesture references should be updated in the loop above (we need to wait
   // in case of external relations)
-  ghQueueMicrotask(() => {
+  queueMicrotask(() => {
     if (!mountedRef.current) {
       return;
     }
@@ -567,7 +569,6 @@ function validateDetectorChildren(ref: any) {
   //         /       \
   //   NativeView  NativeView
   if (__DEV__ && Platform.OS !== 'web') {
-    const REACT_NATIVE_VERSION = getReactNativeVersion();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const wrapType =
       REACT_NATIVE_VERSION.minor > 63 || REACT_NATIVE_VERSION.major > 0

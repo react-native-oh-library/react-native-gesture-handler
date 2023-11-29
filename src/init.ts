@@ -1,6 +1,6 @@
-import { startListening } from './handlers/gestures/eventReceiver';
-import RNGestureHandlerModule from './RNGestureHandlerModule';
-import { isFabric } from './utils';
+import { startListening } from 'react-native-gesture-handler/src/handlers/gestures/eventReceiver';
+import { RNGestureHandlerModule } from './RNGestureHandlerModule';
+import { isFabric } from 'react-native-gesture-handler/src/utils';
 
 let fabricInitialized = false;
 

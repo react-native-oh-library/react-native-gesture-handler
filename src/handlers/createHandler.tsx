@@ -1,3 +1,5 @@
+// RNGH: patching the import to RNGestureHandlerModule
+
 import * as React from 'react';
 import {
   Platform,
@@ -7,14 +9,14 @@ import {
 } from 'react-native';
 // @ts-ignore - it isn't typed by TS & don't have definitelyTyped types
 import deepEqual from 'lodash/isEqual';
-import RNGestureHandlerModule from '../RNGestureHandlerModule';
-import type RNGestureHandlerModuleWeb from '../RNGestureHandlerModule.web';
-import { State } from '../State';
+import {RNGestureHandlerModule} from '../RNGestureHandlerModule'; // RNGH: patch
+import type RNGestureHandlerModuleWeb from 'react-native-gesture-handler/src/RNGestureHandlerModule.web';
+import { State } from 'react-native-gesture-handler/src/State';
 import {
   handlerIDToTag,
   getNextHandlerTag,
   registerOldGestureHandler,
-} from './handlersRegistry';
+} from 'react-native-gesture-handler/src/handlers/handlersRegistry';
 
 import {
   BaseGestureHandlerProps,
@@ -23,13 +25,12 @@ import {
   HandlerStateChangeEvent,
   findNodeHandle,
   scheduleFlushOperations,
-} from './gestureHandlerCommon';
-import { ValueOf } from '../typeUtils';
-import { isFabric, isJestEnv, tagMessage } from '../utils';
-import { ActionType } from '../ActionType';
-import { PressabilityDebugView } from './PressabilityDebugView';
-import GestureHandlerRootViewContext from '../GestureHandlerRootViewContext';
-import { ghQueueMicrotask } from '../ghQueueMicrotask';
+} from 'react-native-gesture-handler/src/handlers/gestureHandlerCommon';
+import { ValueOf } from 'react-native-gesture-handler/src/typeUtils';
+import { isFabric, isJestEnv, tagMessage } from 'react-native-gesture-handler/src/utils';
+import { ActionType } from 'react-native-gesture-handler/src/ActionType';
+import { PressabilityDebugView } from 'react-native-gesture-handler/src/handlers/PressabilityDebugView';
+import GestureHandlerRootViewContext from 'react-native-gesture-handler/src/GestureHandlerRootViewContext';
 
 const UIManagerAny = UIManager as any;
 
@@ -215,7 +216,7 @@ export default function createHandler<
         // queueMicrotask. This makes it so update() function gets called after all
         // react components are mounted and we expect the missing ref object to
         // be resolved by then.
-        ghQueueMicrotask(() => {
+        queueMicrotask(() => {
           this.update(UNRESOLVED_REFS_RETRY_LIMIT);
         });
       }
@@ -379,7 +380,7 @@ export default function createHandler<
       // `ref={refObject}` it's possible that it won't be resolved in time. Seems like trying
       // again is easy enough fix.
       if (hasUnresolvedRefs(props) && remainingTries > 0) {
-        ghQueueMicrotask(() => {
+        queueMicrotask(() => {
           this.update(remainingTries - 1);
         });
       } else {

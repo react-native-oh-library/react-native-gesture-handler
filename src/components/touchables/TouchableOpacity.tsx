@@ -67,7 +67,8 @@ export default class TouchableOpacity extends Component<TouchableOpacityProps> {
             opacity: this.opacity as unknown as number, // TODO: fix this
           },
         ]}
-        onStateChange={this.onStateChange}>
+        onStateChange={this.onStateChange}
+      >
         {this.props.children ? this.props.children : <View />}
       </GenericTouchable>
     );

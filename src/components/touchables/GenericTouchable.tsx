@@ -9,15 +9,14 @@ import {
   Insets,
 } from 'react-native';
 
-import { State } from '../../State';
+import { State } from 'react-native-gesture-handler/src/State';
 import { BaseButton } from '../GestureButtons';
 
 import {
   GestureEvent,
   HandlerStateChangeEvent,
-} from '../../handlers/gestureHandlerCommon';
-import { NativeViewGestureHandlerPayload } from '../../handlers/NativeViewGestureHandler';
-import { TouchableNativeFeedbackExtraProps } from './TouchableNativeFeedback.android';
+} from 'react-native-gesture-handler/src/handlers/gestureHandlerCommon';
+import { NativeViewGestureHandlerPayload } from 'react-native-gesture-handler/src/handlers/NativeViewGestureHandler';
 
 /**
  * Each touchable is a states' machine which preforms transitions.
@@ -32,7 +31,7 @@ export const TOUCHABLE_STATE = {
   MOVED_OUTSIDE: 2,
 } as const;
 
-type TouchableState = typeof TOUCHABLE_STATE[keyof typeof TOUCHABLE_STATE];
+type TouchableState = (typeof TOUCHABLE_STATE)[keyof typeof TOUCHABLE_STATE];
 
 export interface GenericTouchableProps
   extends Omit<TouchableWithoutFeedbackProps, 'hitSlop'> {
@@ -54,7 +53,7 @@ export interface GenericTouchableProps
 }
 
 interface InternalProps {
-  extraButtonProps: TouchableNativeFeedbackExtraProps;
+  extraButtonProps: any;
   onStateChange?: (oldState: TouchableState, newState: TouchableState) => void;
 }
 
@@ -291,7 +290,8 @@ export default class GenericTouchable extends Component<
         testID={this.props.testID}
         touchSoundDisabled={this.props.touchSoundDisabled ?? false}
         enabled={!this.props.disabled}
-        {...this.props.extraButtonProps}>
+        {...this.props.extraButtonProps}
+      >
         <Animated.View {...coreProps} style={this.props.style}>
           {this.props.children}
         </Animated.View>
