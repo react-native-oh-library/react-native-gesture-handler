@@ -1,6 +1,6 @@
 {
-  "name": "react-native-gesture-handler",
-  "version": "2.14.0",
+  "name": "@react-native-oh-tpl/react-native-gesture-handler",
+  "version": "2.12.1-0.0.1",
   "description": "Experimental implementation of a new declarative API for gesture handling in react-native",
   "scripts": {
     "prepare": "bob build && husky install",
@@ -15,6 +15,10 @@
     "lint:js": "eslint --ext '.js,.ts,.tsx' src/ example/src FabricExample/src && yarn prettier --check './{src,example,FabricExample}/**/*.{js,jsx,ts,tsx}'",
     "lint:js-root": "eslint --ext '.js,.ts,.tsx' src/ && yarn prettier --check './src/**/*.{js,jsx,ts,tsx}'",
     "lint:android": "./android/gradlew -p android spotlessCheck -q"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "react-native": "src/index.ts",
   "main": "lib/commonjs/index.js",
@@ -46,7 +50,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/software-mansion/react-native-gesture-handler.git"
+    "url": "https://github.com/react-native-oh-library/react-native-gesture-handler.git"
   },
   "author": {
     "email": "krzys.magiera@gmail.com",
