@@ -1,0 +1,11 @@
+[
+    {
+        "Name": "react-native-gesture-handler",
+        "License": "MIT License",
+        "License File":"https://github.com/software-mansion/react-native-gesture-handler/blob/main/LICENSE",
+        "Version Number": "2.12.6-0.0.1",
+        "Owner" : ""
+        "Upstream URL": "https://github.com/software-mansion/react-native-gesture-handler",
+        "Description": "React Native Gesture Handler provides native-driven gesture management APIs for building best possible touch-based experiences in React Native."
+    }
+]

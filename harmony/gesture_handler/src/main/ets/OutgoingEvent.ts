@@ -17,17 +17,17 @@ export type GestureUpdateEvent<GestureEventPayloadT = Record<string, unknown>> =
 export type GestureStateChangeEvent<GestureStateChangeEventPayloadT = Record<string, unknown>> = HandlerStateChangeEventPayload & GestureStateChangeEventPayloadT
 
 export type TouchData = {
-  id: number;
-  x: number;
-  y: number;
   absoluteX: number;
   absoluteY: number;
+  x: number;
+  y: number;
+  id: number;
 };
 
 export type GestureTouchEvent = {
-  handlerTag: number;
-  numberOfTouches: number;
   state: State;
+  numberOfTouches: number;
+  handlerTag: number;
   eventType: TouchEventType;
   allTouches: TouchData[];
   changedTouches: TouchData[];
