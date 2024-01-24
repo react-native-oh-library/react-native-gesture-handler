@@ -3,7 +3,7 @@
   "harmony": {
     "alias": "react-native-gesture-handler"
   },
-  "version": "2.12.6-1",
+  "version": "2.12.6-2",
   "description": "",
   "react-native": "src/index.ts",
   "main": "lib/commonjs/index.js",
@@ -11,7 +11,7 @@
   "types": "lib/typescript/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-native-oh-library/react-native-harmony-gesture-handler.git"
+    "url": "https://github.com/react-native-oh-library/react-native-gesture-handler.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -45,7 +45,7 @@
     "react": "^18.2.0",
     "react-native": "^0.72.0",
     "react-native-builder-bob": "^0.21.3",
-    "react-native-harmony": "../react-native-harmony/rnoh-react-native-harmony-0.72.11.tgz",
+    "react-native-harmony": "npm:@react-native-oh/react-native-harmony@^0.72.11",
     "typescript": "4.5.5"
   },
   "files": [
