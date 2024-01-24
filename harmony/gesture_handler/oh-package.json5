@@ -3,9 +3,11 @@
   "author": "",
   "name": "rnoh-gesture-handler",
   "description": "",
-  "main": "",
+  "main": "index.ets",
   "version": "2.12.6",
   "devDependencies": {
+  },
+  "dependencies": {
     "rnoh": "file:../rnoh"
   }
 }
